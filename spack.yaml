@@ -36,7 +36,7 @@ spack:
           # Explicitly, which packages are accessible as modules
           # TODO: Add packages that will be included as modules
           # - MODEL
-        hide_implicits: true
+        exclude_implicits: true
         all:
           autoload: direct
           conflict:
