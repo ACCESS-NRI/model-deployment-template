@@ -18,8 +18,9 @@ spack:
     # Specifications that apply to all packages
     all:
       # TODO: Specify compiler/targets for all packages
-      # compiler: [intel@19.0.5.281]
-      # target: [x86_64]
+      # require:
+      #   - '%intel@19.0.5.281'
+      #   - 'target=x86_64'
   view: true
   concretizer:
     unify: true
