@@ -69,7 +69,6 @@ Regarding the secrets and variables that must be created:
 
 * `.spack` must be given a version. For example, it will clone the associated `releases/VERSION` branch of `ACCESS-NRI/spack` if you give it `VERSION`.
 * `.spack-packages` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/spack-packages/tags) for a list of available tags.
-* `.spack-config` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/spack-config/tags) for a list of available tags.
 
 #### In `spack.yaml`
 
