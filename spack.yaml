@@ -26,32 +26,18 @@ spack:
     unify: true
   modules:
     default:
-      enable:
-        - tcl
-      roots:
-        tcl: $spack/../release/modules
-        lmod: $spack/../release/lmod
       tcl:
-        hash_length: 0
         include:
           # Explicitly, which packages are accessible as modules
           # TODO: Add packages that will be included as modules
           # - MODEL
-        exclude_implicits: true
-        all:
-          autoload: direct
-          conflict:
-            - '{name}'
-          environment:
-            set:
-              'SPACK_{name}_ROOT': '{prefix}'
         projections:
           # TODO: Add explicit projections for modules that will be found with `module load`.
           # Naming scheme for the above included modules.
           # These projection versions must be the same as the
           # `spack.packages.*.require[0]` version but without the `@git.`.
-          # Ex. `require` version `@git.2024.04.21` -> projection `2024.04.21`.
-          all: '{name}/{version}'
+          # Ex. `require` version `@git.2024.04.21` -> projection `2024.04.21-{hash:7}`.
+          all: '{name}/{version}-{hash:7}'
           # MODEL: '{name}/VERSION'
   # config:
   #   overridden spack configurations, if needed
