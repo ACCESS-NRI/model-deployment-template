@@ -10,15 +10,15 @@ FIXME: Add in the image of the process
 
 ## The `spack.yaml` File
 
-The `spack.yaml` file at the root of the repository is a file understood by `spack`, that essentially constrain the versions and features of dependencies required for a build of a given climate model. It is a set of abstract constraints that is _concretized_ into a single set of dependencies at build time, creating a `spack.lock` file.
+The `spack.yaml` file at the root of the repository is a file understood by `spack`. It constrains the versions and features (variants) of dependencies required to build a given climate model. It is a set of abstract constraints that is _concretized_ into a single set of dependencies at build time, creating a `spack.lock` file.
 
-It is similar to other package managers abstract/concrete paradigm, like `npm`s `package.json`/`package.lock` files.
+It is similar to `npm`s `package.json`/`package.lock` files.
 
 More information on the `spack.yaml` file itself can be found on [ACCESS-NRI's devdocs](https://github.com/ACCESS-NRI/dev-docs/wiki/Spack#the-spackyaml-file-spec-file).
 
 ## The `config` Directory
 
-The `config` directory at the root of this repository contains a single `versions.json` file, which allows customisation of both the version of [`access-nri/spack`](https://github.com/ACCESS-NRI/spack) that the model will be deployed on, as well as the version of [`access-nri/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) that will source the ACCESS-NRI spack packages.
+The `config` directory at the root of this repository contains a single `versions.json` file, which allows customisation of both the version of [`access-nri/spack`](https://github.com/ACCESS-NRI/spack) that the model will be deployed on, as well as the version of [`access-nri/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) that will source the ACCESS-NRI spack packages recipes.
 
 ## The PR Process
 
