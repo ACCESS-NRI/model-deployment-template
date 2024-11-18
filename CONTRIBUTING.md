@@ -1,4 +1,4 @@
-# Contributing To A Model Deployment Repository
+# Creating Pre/Releases For A Model Deployment Repository
 
 This model deployment repository makes use of the [spack](https://spack.readthedocs.io/en/latest/) build and deployment functionality enabled by the [access-nri/build-cd repository](https://github.com/ACCESS-NRI/build-cd).
 
