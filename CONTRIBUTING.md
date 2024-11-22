@@ -50,6 +50,6 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
       * Update the version of the [`mom5` package](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L15) to `@git.dev_2024.08.14`.
       * Also update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L53) to `{name}/VERSION-{hash:7}` - in this case, `{name}/dev_2024.08.14-{hash:7}`. The `{hash:7}` is used so the module doesn't conflict with other versions.
 4. Now that the modifications are complete, commit the changes and open a Pull Request in `ACCESS-NRI/ACCESS-OM2` into `main`, even if it's just a dev build.
-5. The CI/CD kicks off, and a comment is added by `github-actions[bot]` saying that the build is deploying, and once the deployment is 'Active', the module specified in the comment is available on the HPC and is `module use/load`able. Excellent!
+5. The CI/CD kicks off, and [a comment](https://github.com/ACCESS-NRI/ACCESS-OM2/pull/86#issuecomment-2477781588) is added by `github-actions[bot]` saying that the build is deploying, and once the deployment is 'Active', the module specified in the comment is available on the HPC and is `module use/load`able. Excellent!
 
 **NOTE:** If required, when making modifications, verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as required by use-case.
