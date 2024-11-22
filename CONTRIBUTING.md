@@ -12,7 +12,7 @@ FIXME: Add in the image of the process
 
 The `spack.yaml` file at the root of the repository is a file understood by `spack`. It constrains the versions and features (variants) of dependencies required to build a given climate model. It is a set of abstract constraints that are _concretized_ into a single set of dependencies at build time, creating a `spack.lock` file.
 
-It is similar to `npm`s `package.json`/`package.lock` files.
+It is similar to `npm`'s `package.json`/`package.lock` files.
 
 More information on the `spack.yaml` file itself can be found on [ACCESS-NRI's devdocs](https://github.com/ACCESS-NRI/dev-docs/wiki/Spack#the-spackyaml-file-spec-file).
 
@@ -20,25 +20,25 @@ More information on the `spack.yaml` file itself can be found on [ACCESS-NRI's d
 
 The `config` directory at the root of this repository contains a single `versions.json` file, which allows customisation of both the version of [`access-nri/spack`](https://github.com/ACCESS-NRI/spack) that the model will be deployed on, as well as the version of [`access-nri/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) that will source the ACCESS-NRI spack packages recipes.
 
-## The PR Process
+## Changing the Model via Pull Request (PR)
 
-1. The first step is to create a branch from the model deployment repository `main` branch.
+1. The first step is to create a branch from the model deployment repository's `main` branch.
 2. [Modifications](#modifications-to-the-spackyaml-file) can be made to the `spack.yaml`/`config/versions.json` files as applicable - update versions of packages, add variants, etc.
 3. Once a commit has been made that you want to build, open a PR into `main` in the model deployment repository, and the CI/CD infrastructure will attempt to build.
     * If there are CI errors in the build, they will be reported via GitHubs Pull Request Checks. More information on them is available by clicking the failing test.
     * If the CI checks succeed, a bot will comment on what is being deployed on the open pull request.
-    * Finally, GitHubs Environment Deployment dialogue will show on the Pull Request as a yellow 'In Progress' label. Once it shows a green 'Active' (or grey 'Inactive') deployment, you can use the modules specified in the above comment - they should look something like `MODEL/prX-Y` for the `MODEL`s `X`th PR and `Y`th deployment.
+    * Finally, GitHubs Environment Deployment dialogue will show on the Pull Request as a yellow 'In Progress' label. Once it shows a green 'Active' (or grey 'Inactive') deployment, you can use the modules specified in the above comment - they should look something like `MODEL/prX-Y` for the `MODEL`'s `X`th PR and `Y`th deployment.
 4. Further commits can be pushed onto the Pull Request branch to create more builds, without removing the earlier ones, allowing side-by-side testing. For example, adding an extra commit will allow use of the module `MODEL/prX-(Y+1)` once it's deployed.
-5. When the Pull Request is closed, whether it is merged or not, the Prereleases **will be removed**, but can be recreated at your leisure by installing the `spack.yaml`/`spack.lock` artifact at the specified commit on your own instance, or by creating a new Pull Request.
+5. When the Pull Request is closed, whether it is merged or not, the Prereleases **will be removed**, but can be recreated by installing the `spack.yaml`/`spack.lock` artifact at the specified commit on your own instance, or by creating a new Pull Request.
 6. If the Pull Request is merged, it will create an official ACCESS-NRI released build of the given model, with an associated GitHub Release.
 
 ## Modifications To The `spack.yaml` File
 
 Below are some real-world examples of how to modify the `spack.yaml` file.
 
-### Example Modification Workflow of `ACCESS-OM2`s `MOM5` Package
+### Example Modification Workflow of `ACCESS-OM2`'s `MOM5` Package
 
-In this example, we are using the `ACCESS-OM2` deployment repositories `spack.yaml` from [this commit](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml). We are also modifying one of ACCESS-OM2's model components, namely [ACCESS-NRI/MOM5](https://github.com/ACCESS-NRI/MOM5). This model component is available in our [`ACCESS-NRI/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) as the package `mom5`.
+In this example, we are using the `ACCESS-OM2` deployment repository's `spack.yaml` from [this commit](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml). We are also modifying one of ACCESS-OM2's model components, namely [ACCESS-NRI/MOM5](https://github.com/ACCESS-NRI/MOM5). This model component is available in our [`ACCESS-NRI/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) as the package `mom5`.
 
 1. Clone and make modifications to the model component `ACCESS-NRI/MOM5`, which is tagged with [`dev_2024.08.14`](https://github.com/ACCESS-NRI/MOM5/releases/tag/dev_2024.08.14).
 2. Create a branch in the model deployment repository `ACCESS-NRI/ACCESS-OM2` - such as `update_mom5_dev_build`.
