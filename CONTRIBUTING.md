@@ -40,15 +40,16 @@ Below are some real-world examples of how to modify the `spack.yaml` file.
 
 In this example, we are using the `ACCESS-OM2` deployment repositories `spack.yaml` from [this commit](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml). We are also modifying one of ACCESS-OM2's model components, namely [ACCESS-NRI/MOM5](https://github.com/ACCESS-NRI/MOM5). This model component is available in our [`ACCESS-NRI/spack-packages`](https://github.com/ACCESS-NRI/spack-packages) as the package `mom5`.
 
-1. We clone and make our modifications to the model component `ACCESS-NRI/MOM5`, which we tag with [`dev_2024.08.14`](https://github.com/ACCESS-NRI/MOM5/releases/tag/dev_2024.08.14).
-2. We then create a branch in the model deployment repository `ACCESS-NRI/ACCESS-OM2` - such as `update_mom5_dev_build`.
-3. We verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as we want them.
-4. We then make our modifications to the `spack.yaml` file:
-   * Firstly, we bump the version of the [overall deployment](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L8). This version encompasses all changes done in a `spack.yaml`, in the form `CALVER_YEAR.CALVER_MONTH.MINOR`:
-      * Since this is a minor change, we will just bump the minor version. Hence, we update to `@git.2024.03.1`.
-      * When we bump the version, we also need to update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L51) to `{name}/2024.03.1` as well.
-   * Secondly, we bump the version of `mom5` that we updated earlier, to the `dev_2024.08.14` tag set in the model component repository:
-      * We update the version of the [`mom5` package](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L15) to `@git.dev_2024.08.14`.
-      * We also update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L53) to `{name}/VERSION-{hash:7}` - in this case, `{name}/dev_2024.08.14-{hash:7}`. We use the `{hash:7}` so it doesn't conflict with other versions.
-5. Now that we have completed our modifications, we commit them and open a Pull Request in `ACCESS-NRI/ACCESS-OM2` into `main`, even if it's just a dev build.
-6. The CI/CD kicks off, we get a comment saying our build is deploying, and once we see that the deployment is 'Active', we go onto the HPC and `module use/load` the module specified in the comment. Excellent!
+1. Clone and make modifications to the model component `ACCESS-NRI/MOM5`, which is tagged with [`dev_2024.08.14`](https://github.com/ACCESS-NRI/MOM5/releases/tag/dev_2024.08.14).
+2. Create a branch in the model deployment repository `ACCESS-NRI/ACCESS-OM2` - such as `update_mom5_dev_build`.
+3. Make modifications to the `spack.yaml` file:
+   * Firstly, bump the version of the [overall deployment](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L8). This version encompasses all changes done in a `spack.yaml`, in the form `CALVER_YEAR.CALVER_MONTH.MINOR`:
+      * Since this is a minor change, just bump the minor version. Hence, it is updated to `@git.2024.03.1`.
+      * When that version is bumped, the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L51) also needs to be updated to `{name}/2024.03.1` as well.
+   * Secondly, bump the version of `mom5` that was updated earlier, to the `dev_2024.08.14` tag set in the model component repository:
+      * Update the version of the [`mom5` package](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L15) to `@git.dev_2024.08.14`.
+      * Also update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L53) to `{name}/VERSION-{hash:7}` - in this case, `{name}/dev_2024.08.14-{hash:7}`. The `{hash:7}` is used so the module doesn't conflict with other versions.
+4. Now that the modifications are complete, commit the changes and open a Pull Request in `ACCESS-NRI/ACCESS-OM2` into `main`, even if it's just a dev build.
+5. The CI/CD kicks off, and a comment is added by `github-actions[bot]` saying that the build is deploying, and once the deployment is 'Active', the module specified in the comment is available on the HPC and is `module use/load`able. Excellent!
+
+**NOTE:** If required, when making modifications, verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as required by use-case.
