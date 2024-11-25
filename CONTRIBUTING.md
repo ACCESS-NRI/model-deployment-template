@@ -49,7 +49,7 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
    * Secondly, update the version of the `mom5` package that was updated earlier, to the `development` branch set in the model component repository:
       * Update the version of the [`mom5` package](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L15) to `@git.development`.
       * Also update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L53) to `{name}/VERSION-{hash:7}` - in this case, `{name}/development-{hash:7}`. The `{hash:7}` is used so the module doesn't conflict with other versions.
-   * The end result should looks something like this:
+   * The end result should be something like this (note this is a [unified diff](https://linuxhandbook.com/diff-command/#example-3-diff-in-“unified”-context-withu) showing the original and changes that were required):
 
       ```diff
       spack:
