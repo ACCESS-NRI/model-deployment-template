@@ -42,13 +42,42 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 
 1. Clone and make modifications to the model component `ACCESS-NRI/MOM5`, which is tagged with [`dev_2024.08.14`](https://github.com/ACCESS-NRI/MOM5/releases/tag/dev_2024.08.14).
 2. Create a branch in the model deployment repository `ACCESS-NRI/ACCESS-OM2` - such as `update_mom5_dev_build`.
-3. Make modifications to the `spack.yaml` file:
+3. Make modifications to the `spack.yaml` file - an example diff is below:
    * Firstly, bump the version of the [overall deployment](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L8). This version encompasses all changes done in a `spack.yaml`, in the form `CALVER_YEAR.CALVER_MONTH.MINOR`:
       * Since this is a minor change, just bump the minor version. Hence, it is updated to `@git.2024.03.1`.
       * When that version is bumped, the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L51) also needs to be updated to `{name}/2024.03.1` as well.
    * Secondly, bump the version of `mom5` that was updated earlier, to the `dev_2024.08.14` tag set in the model component repository:
       * Update the version of the [`mom5` package](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L15) to `@git.dev_2024.08.14`.
       * Also update the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L53) to `{name}/VERSION-{hash:7}` - in this case, `{name}/dev_2024.08.14-{hash:7}`. The `{hash:7}` is used so the module doesn't conflict with other versions.
+   * The end result should looks something like this:
+
+      ```diff
+      spack:
+         # add package specs to the `specs` list
+         specs:
+      -       - access-om2@git.2024.03.0
+      +       - access-om2@git.2024.03.1
+         packages:
+            # ...
+            mom5:
+               require:
+      -         - '@git.2023.11.09'
+      +         - '@git.dev_2024.08.14'
+            # ...
+         # ...
+         modules:
+            default:
+               tcl:
+                  # ...
+                  projections:
+      -               access-om2: '{name}/2024.03.0'
+      +               access-om2: '{name}/2024.03.1'
+                     # ...
+      -               mom5: '{name}/2023.11.09-{hash:7}'
+      +               mom5: '{name}/dev_2024.08.14-{hash:7}'
+                     # ...
+      ```
+
 4. Now that the modifications are complete, commit the changes and open a Pull Request in `ACCESS-NRI/ACCESS-OM2` into `main`, even if it's just a dev build.
 5. The CI/CD kicks off, and [a comment](https://github.com/ACCESS-NRI/ACCESS-OM2/pull/86#issuecomment-2477781588) is added by `github-actions[bot]` saying that the build is deploying, and once the deployment is 'Active', the module specified in the comment is available on the HPC and is `module use/load`able. Excellent!
 
