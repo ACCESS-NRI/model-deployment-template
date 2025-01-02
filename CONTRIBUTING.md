@@ -6,7 +6,7 @@ This allows automated Release and Prerelease `spack` builds of climate models, i
 
 In a nutshell, the commits on Pull Requests to this model deployment repository generate isolated Prerelease builds of a climate model on HPCs. When these are merged, an official Release build is created.
 
-FIXME: Add in the image of the process
+This document contains help on [how to create PRs specific to model deployment repositories](#changing-the-model-via-pull-request-pr), an [example of this in action](#example-modification-workflow-of-access-om2s-mom5-package), and the [comment commands](#advanced-comment-commands) available to this repository.
 
 ## The `spack.yaml` File
 
@@ -43,7 +43,7 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 1. Clone and make modifications to the model component `ACCESS-NRI/MOM5`, In this case, the modifications we want to include are on the branch [`development`](https://github.com/ACCESS-NRI/MOM5/tree/development). Tags can also be used.
 2. Create a branch in the model deployment repository `ACCESS-NRI/ACCESS-OM2` - such as `update_mom5_dev_build`.
 3. Make modifications to the `spack.yaml` file - an example diff is below:
-   * Firstly, bump the version of the [overall deployment](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L8). This version encompasses all changes done in a `spack.yaml`, in the form `CALVER_YEAR.CALVER_MONTH.MINOR`:
+   * Firstly, bump the version of the [overall deployment](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L8). This version encompasses all changes done in a `spack.yaml`, in the form `CALVER_YEAR.CALVER_MONTH.MINOR`. Note that if the PR is created as a Draft, there is no need to bump the overall model version as it is assumed to be a test build:
       * Since this is a minor change, just bump the minor version. Hence, it is updated to `@git.2024.03.1`.
       * When that version is bumped, the [associated module projection](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/spack.yaml#L51) also needs to be updated to `{name}/2024.03.1` as well.
    * Secondly, update the version of the `mom5` package that was updated earlier, to the `development` branch set in the model component repository:
@@ -83,3 +83,60 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 6. If there are any other changes required in that PR, simply commit changes to the `spack.yaml` to do a rebuild. For example, if one does more changes to the `MOM5` `development` branch that need to be incorporated, add in a comment to the `spack.yaml` noting the changes, and commit it.
 
 **NOTE:** If required, when making modifications, verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as required by use-case.
+
+## Advanced Comment Commands
+
+The CI/CD pipeline can also take action based on "Comment Commands", which is a ChatOps-style interface for doing certain actions during a Pull Request.
+
+> [!NOTE]
+> Comment commands must be the start of the comment, and contain no leading spaces
+
+The following Comment Commands are available in model deployment repositories, at a certain version of the CI infrastructure:
+
+### `!bump` (since [`@v1`](https://github.com/ACCESS-NRI/build-cd/tree/v1))
+
+> [!NOTE]
+> Requires commenters to have at least `repo:write` on the repository.
+
+#### Usage
+
+```txt
+!bump [major|minor]
+```
+
+#### Explanation
+
+Convenience function that bumps the `spack.yaml` model version (of the form `YEAR.MONTH.MINOR`, where `YEAR.MONTH` is considered the `MAJOR` portion) and commits the result to the PR branch.
+
+`!bump major` bumps the model version to the next major version, which is of the form `CURRENT_YEAR.CURRENT_MONTH.0`. For example, `2024.06.1` -> `2025.01.0` if it is bumped in January 2025.
+If the `CURRENT_YEAR.CURRENT_MONTH` portion is already taken, it is bumped to the next available month.
+
+`!bump minor` bumps the model version to the next minor version, which is of the form `YEAR.MONTH.(X+1)`. For example, `2025.01.0` -> `2025.01.1`.
+
+### `!redeploy` (since [`@v2`](https://github.com/ACCESS-NRI/build-cd/tree/v2))
+
+> [!NOTE]
+> Requires commenters to have at least `repo:write` on the repository.
+
+#### Usage
+
+```txt
+!redeploy
+```
+
+#### Explanation
+
+Convenience function that deploys the current `HEAD` of the PR branch again.
+
+This is most useful for models that are using `@git.BRANCH` references for versions of model dependencies.
+
+> [!IMPORTANT]
+> It is up to the user to make sure that modifications have actually been pushed to the branch(es) referenced in the `spack.yaml` before doing a `!redeploy` - it will not check for this, and will simply redeploy the same changes if no changes are made
+
+For example, say you have done the modifications from the [above `mom5` example](#example-modification-workflow-of-access-om2s-mom5-package), and it has deployed.
+
+If you make further modifications to the `mom5` packages `development` branch (meaning it has a new `HEAD`), you would need the CI in the model deployment repository to run again to pick up the new `HEAD` of the `mom5` `development` branch.
+
+To redeploy the model with all the current changes in the `mom5` repository, comment `!redeploy`. This forces the CI/CD job to re-run and the redeployment will exist as a separate environment and module to the original deployment.
+
+This is a convenience function. Without this you would need to create a new commit to the pull request to force the CI/CD to run.
