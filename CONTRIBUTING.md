@@ -127,6 +127,8 @@ Convenience function that deploys the current `HEAD` of the PR branch again
 
 This is most useful for models that are using `@git.BRANCH` references for versions of model dependencies. For example, say you have done the modifications from the [above `mom5` example](#example-modification-workflow-of-access-om2s-mom5-package), and it has deployed.
 
-If you make further modifications to the `mom5` packages `development` branch (meaning it has a new `HEAD`), you would need the CI in the model deployment repository to fire again to pick up the new `HEAD` of the `mom5` `development` branch.
+If you make further modifications to the `mom5` packages `development` branch (meaning it has a new `HEAD`), you would need the CI in the model deployment repository to run again to pick up the new `HEAD` of the `mom5` `development` branch.
 
-To get the CI to fire, redeploying the current commit in the model deployment repository and picking up the changes in the `mom5` package, comment `!redeploy`. This redeployment will exist as a separate environment and module to the original deployment.
+To redeploy the model with all the current changes in the `mom5` repository, comment `!redeploy`. This forces the CI/CD job to re-run and the redeployment will exist as a separate environment and module to the original deployment.
+
+This is a convenience function. Without this you would need to create a new commit to the pull request to force the CI/CD to run.
