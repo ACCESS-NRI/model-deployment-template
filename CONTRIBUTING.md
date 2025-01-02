@@ -6,7 +6,7 @@ This allows automated Release and Prerelease `spack` builds of climate models, i
 
 In a nutshell, the commits on Pull Requests to this model deployment repository generate isolated Prerelease builds of a climate model on HPCs. When these are merged, an official Release build is created.
 
-This document contains help on [how to create PRs specific to model deployment repositories](#changing-the-model-via-pull-request-pr), an [example of this in action](#example-modification-workflow-of-access-om2s-mom5-package), and the [comment commands](#advanced-comment-commands) available to this repository.
+This document contains help on [how to create PRs specific to model deployment repositories](#changing-the-model-via-pull-request-pr), an [example of this in action](#example-modification-workflow-of-access-om2s-mom5-package), and the [comment commands](#comment-commands) available to this repository.
 
 ## The `spack.yaml` File
 
@@ -84,7 +84,9 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 
 **NOTE:** If required, when making modifications, verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as required by use-case.
 
-## Advanced Comment Commands
+## Advanced
+
+### Comment Commands
 
 The CI/CD pipeline can also take action based on "Comment Commands", which is a ChatOps-style interface for doing certain actions during a Pull Request.
 
@@ -93,18 +95,18 @@ The CI/CD pipeline can also take action based on "Comment Commands", which is a 
 
 The following Comment Commands are available in model deployment repositories, at a certain version of the CI infrastructure:
 
-### `!bump` (since [`@v1`](https://github.com/ACCESS-NRI/build-cd/tree/v1))
+#### `!bump` (since [`@v1`](https://github.com/ACCESS-NRI/build-cd/tree/v1))
 
 > [!NOTE]
 > Requires commenters to have at least `repo:write` on the repository.
 
-#### Usage
+##### Usage
 
 ```txt
 !bump [major|minor]
 ```
 
-#### Explanation
+##### Explanation
 
 Convenience function that bumps the `spack.yaml` model version (of the form `YEAR.MONTH.MINOR`, where `YEAR.MONTH` is considered the `MAJOR` portion) and commits the result to the PR branch.
 
@@ -113,18 +115,18 @@ If the `CURRENT_YEAR.CURRENT_MONTH` portion is already taken, it is bumped to th
 
 `!bump minor` bumps the model version to the next minor version, which is of the form `YEAR.MONTH.(X+1)`. For example, `2025.01.0` -> `2025.01.1`.
 
-### `!redeploy` (since [`@v2`](https://github.com/ACCESS-NRI/build-cd/tree/v2))
+#### `!redeploy` (since [`@v2`](https://github.com/ACCESS-NRI/build-cd/tree/v2))
 
 > [!NOTE]
 > Requires commenters to have at least `repo:write` on the repository.
 
-#### Usage
+##### Usage
 
 ```txt
 !redeploy
 ```
 
-#### Explanation
+##### Explanation
 
 Convenience function that deploys the current `HEAD` of the PR branch again.
 
@@ -140,3 +142,15 @@ If you make further modifications to the `mom5` packages `development` branch (m
 To redeploy the model with all the current changes in the `mom5` repository, comment `!redeploy`. This forces the CI/CD job to re-run and the redeployment will exist as a separate environment and module to the original deployment.
 
 This is a convenience function. Without this you would need to create a new commit to the pull request to force the CI/CD to run.
+
+### Backporting Bugfixes
+
+The `main` branch is used as a place for the most recent model changes, but there also needs to be a way to backport bugfixes to earlier major versions of the model.
+
+This is the use-case for dedicated `backport/*.*` branches for bugfixes and additions to past versions of the model.
+For example, say there exists a `2024.01.1` version of a model on `main`, which needs a backported bugfix.
+
+A developer should:
+
+* Branch off that commit with a `backport/2024.01` branch (if it doesn't already exist)
+* Open a PR off the `backport/2024.01` branch with the fixes, and when it is merged, will be tagged with `2024.01.2` on the `backport/2024.01` branch.
