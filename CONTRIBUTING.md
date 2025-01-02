@@ -88,6 +88,9 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 
 The CI/CD pipeline can also take action based on "Comment Commands", which is a ChatOps-style interface for doing certain actions during a Pull Request.
 
+> [!NOTE]
+> Comment commands must be the start of the comment, and contain no leading spaces
+
 The following Comment Commands are available in model deployment repositories, at a certain version of the CI infrastructure:
 
 ### `!bump` (since [`@v1`](https://github.com/ACCESS-NRI/build-cd/tree/v1))
@@ -123,9 +126,14 @@ If the `CURRENT_YEAR.CURRENT_MONTH` portion is already taken, it is bumped to th
 
 #### Explanation
 
-Convenience function that deploys the current `HEAD` of the PR branch again
+Convenience function that deploys the current `HEAD` of the PR branch again.
 
-This is most useful for models that are using `@git.BRANCH` references for versions of model dependencies. For example, say you have done the modifications from the [above `mom5` example](#example-modification-workflow-of-access-om2s-mom5-package), and it has deployed.
+This is most useful for models that are using `@git.BRANCH` references for versions of model dependencies.
+
+> [!IMPORTANT]
+> It is up to the user to make sure that modifications have actually been pushed to the branch(es) referenced in the `spack.yaml` before doing a `!redeploy` - it will not check for this, and will simply redeploy the same changes if no changes are made
+
+For example, say you have done the modifications from the [above `mom5` example](#example-modification-workflow-of-access-om2s-mom5-package), and it has deployed.
 
 If you make further modifications to the `mom5` packages `development` branch (meaning it has a new `HEAD`), you would need the CI in the model deployment repository to run again to pick up the new `HEAD` of the `mom5` `development` branch.
 
