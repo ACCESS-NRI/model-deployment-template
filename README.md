@@ -74,6 +74,12 @@ Regarding the secrets and variables that must be created:
 
 There are a few TODOs for the `spack.yaml`:
 
+* Only do this step if there are variations in compiler/etc across deployment targets:
+  * `spack.definitions`: Use the `ROOT_PACKAGE` to define the root SBD. The `ROOT_SPEC` simply combines the `ROOT_PACKAGE` with the other, mutually-exclusive `compiler_target` definition.
+  * `spack.specs`: Set the only element in the spec list to `$ROOT_SPEC` - it will be filled in at install time.
+
+Otherwise:
+
 * `spack.specs`: Set the root SBD as the only element of `spack.specs`. This must also have an `@git.YEAR.MONTH.MINOR` version as it is the version of the entire deployment (and indeed will be a tag in this repository).
 * `spack.packages.*`: In this section, you can specify the versions and variants of dependencies. Note that the first element of the `spack.packages.*.require` must be only a version. Variants and other configuration can be done on subsequent lines.
 * `spack.packages.all`: Can set configuration for all packages. For example, the compiler used, or the target architecture.
