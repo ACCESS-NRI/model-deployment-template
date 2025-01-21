@@ -3,11 +3,35 @@
 # It describes a set of packages to be installed, along with
 # configuration settings.
 spack:
+  # TODO: This section is used primarily to provide variations to a model based on deployment target. Delete if not required.
+  # definitions:
+    # This is the root spack bundle that contains the model
+    # - ROOT_PACKAGE:
+    #   - MODEL@git.VERSION
+
+    # Mutually-exclusive Compiler and Target definitions (assumes DEPLOYMENT_TARGET set)
+    # - when: env['DEPLOYMENT_TARGET'] == 'Gadi'
+    #   compiler_target: ['%intel@19.0.5.281 target=x86_64_v4']
+    # More mutually-exclusive definitions can be made...
+    # Default
+    # - when: "'DEPLOYMENT_TARGET' not in env"
+    #   compiler_targets: ['intel@2021.2.0 target=x86_64']
+
+    # This is where the single definitions of ROOT_PACKAGE and compiler/target are
+    # matrixed together to form a single spec: MODEL@git.VERSION %intel@2021.2.0 target=x86_64
+    # - ROOT_SPEC:
+    #   - matrix:
+    #     - [$ROOT_PACKAGE]
+    #     - [$%compiler_target]
+
   specs:
     # The root Spack Bundle Recipe (SBR) for the model and overall version of
     # the deployment:
-    # TODO: Replace the MODEL and VERSION.
+    # TODO: Replace the MODEL and VERSION, if there is only one deployment target
     # - MODEL@git.VERSION
+    # Alternatively, if there are multiple deployment targets that require
+    # different compilers/variants, use the above definitions section and:
+    # - $ROOT_SPEC
   packages:
     # Specification of dependency versions and variants. CI/CD requires that
     # the first element of the require is only a version:
