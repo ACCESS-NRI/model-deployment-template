@@ -55,7 +55,7 @@ Regarding the secrets and variables that must be created:
 
 ##### Environment Variables
 
-* `DEPLOYMENT_TARGET`: Name of the deployment target for logging purposes
+* `DEPLOYMENT_TARGET`: Often the name of the deployment target, exported to the deployment target for variations in `spack.yaml` build processes - seen most prominently in mutually-exclusive 'when' clauses like `spack.definitions[].when = env['DEPLOYMENT_TARGET'] == 'gadi'`.
 * `SPACK_INSTALLS_ROOT_LOCATION`: Path to the directory that contains all versions of a deployment of `spack`. For example, if `/some/apps/spack` is the `SPACK_INSTALLS_ROOT_LOCATION`, that directory will contain directories like `0.20`, `0.21`, `0.22`, which in turn contain an install of `spack`, `spack-packages` and `spack-config`
 * `SPACK_YAML_LOCATION`: Path to a directory that will contain the `spack.yaml` from this repository during deployment
 * (Optional) `SPACK_INSTALL_PARALLEL_JOBS`: Explicit number of parallel jobs for the installation of the given model. Must be either of the form `--jobs N` or unset (for the default `--jobs 16`).
