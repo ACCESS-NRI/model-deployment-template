@@ -39,8 +39,8 @@ Currently, we have two Environments per deployment target - one for `Release` an
 
 In order to deploy to a given deployment target:
 
-* Environments with the name of the deployment target must be created _in this repository_ and have the associated secrets/variables set ([see below](#environment-secrets))
-* There must be a `Prerelease` Environment associated with the `Release` Environment. For example, if we are deploying to `SUPERCOMPUTER`, we require Environments with the names `SUPERCOMPUTER`, `SUPERCOMPUTER Prerelease`.
+* Environments with the name of the deployment target and the type must be created _in this repository_ and have the associated secrets/variables set ([see below](#environment-secrets))
+* There must be a `Prerelease` Environment associated with the `Release` Environment. For example, if we are deploying to `SUPERCOMPUTER`, we require Environments with the names `SUPERCOMPUTER Release`, `SUPERCOMPUTER Prerelease`.
 
 When setting the environment up, remember to require sign off by a member of ACCESS-NRI when deploying as a `Release`.
 
@@ -55,6 +55,7 @@ Regarding the secrets and variables that must be created:
 
 ##### Environment Variables
 
+* `DEPLOYED_MODULES_DIR`: Directory that will contain the modules created during the installation of the model. This can be virtual modules created by a [`.modulerc` file](https://github.com/ACCESS-NRI/build-cd/tree/main/tools/modules) in the directory.
 * `DEPLOYMENT_TARGET`: Name of the deployment target. It is exported to the deployment target and used for variations in `spack.yaml` build processes - seen most prominently in mutually-exclusive 'when' clauses like `spack.definitions[].when = env['DEPLOYMENT_TARGET'] == 'gadi'`. Also used for logging purposes.
 * `SPACK_INSTALLS_ROOT_LOCATION`: Path to the directory that contains all versions of a deployment of `spack`. For example, if `/some/apps/spack` is the `SPACK_INSTALLS_ROOT_LOCATION`, that directory will contain directories like `0.20`, `0.21`, `0.22`, which in turn contain an install of `spack`, `spack-packages` and `spack-config`
 * `SPACK_YAML_LOCATION`: Path to a directory that will contain the `spack.yaml` from this repository during deployment
@@ -65,11 +66,11 @@ Regarding the secrets and variables that must be created:
 #### In `.github/workflows`
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
-* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment].with.root-sbd` line to the appropriate SBD name.
+* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment|pr-closed].with.root-sbd` line to the appropriate SBD name.
 
 #### In `config/versions.json`
 
-* `.spack` must be given a version. For example, it will clone the associated `releases/VERSION` branch of `ACCESS-NRI/spack` if you give it `VERSION`.
+* `.spack` must be given a version. For example, it will clone the associated `releases/vVERSION` branch of `ACCESS-NRI/spack` if you give it `VERSION`.
 * `.spack-packages` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/spack-packages/tags) for a list of available tags.
 
 #### In `spack.yaml`
