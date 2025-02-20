@@ -36,6 +36,11 @@ spack:
     # Specification of dependency versions and variants. CI/CD requires that
     # the first element of the require is only a version:
     # TODO: Specify versions and variants of dependencies as required.
+    # model-component:
+    #   require:
+    #     # Where VERSION below is usually the MODEL defined above - it's used by spack 
+    #     # packages to define model-specific behavior for built components
+    #     - '@git.REF=VERSION'
     # openmpi:
     #   require:
     #     - '@4.1.5'
