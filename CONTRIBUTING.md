@@ -80,7 +80,7 @@ In this example, we are using the `ACCESS-OM2` deployment repository's `spack.ya
 
 4. Now that the modifications are complete, commit and push the changes and open a Pull Request in `ACCESS-NRI/ACCESS-OM2` into `main`, even if it's just a dev build.
 5. The CI/CD kicks off, and [a comment](https://github.com/ACCESS-NRI/ACCESS-OM2/pull/86#issuecomment-2477781588) is added by `github-actions[bot]` saying that the build is deploying, and once the deployment is 'Active', the module specified in the comment is available on the HPC and is `module use/load`able. Excellent!
-6. If there are any other changes required in that PR, simply commit changes to the `spack.yaml` to do a rebuild. For example, if one does more changes to the `MOM5` `development` branch that need to be incorporated, add in a comment to the `spack.yaml` noting the changes, update the commit or tag from that branch, and then commit and push it.
+6. If there are any other changes required in that PR, simply commit changes to the `spack.yaml` to do a rebuild. For example, if one does more changes to the `MOM5` `development` branch that need to be incorporated, update the commit or tag from that branch in the `spack.yaml`, and then commit and push it.
 
 **NOTE:** If required, when making modifications, verify that the versions of `spack` and `spack-packages` in [`config/versions.json`](https://github.com/ACCESS-NRI/ACCESS-OM2/blob/47bc7bf979c1dfa12a24272cb739117abc50d7ca/config/versions.json) are as required by use-case.
 
