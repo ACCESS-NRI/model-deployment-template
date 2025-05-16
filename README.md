@@ -19,7 +19,6 @@ There are a few secrets and variables that must be set at the repository level.
 
 ##### Repository Secrets
 
-* `BUILD_DB_CONNECTION_STR`: A postgresql connection url to the release provenance database
 * `GH_COMMIT_CHECK_TOKEN`: GitHub Token that allows workflows to run based on workflow-authored commits (in  the case where a user uses `!bump` commands in PRs that bumps the version of the model)
 
 ##### Repository Variables
@@ -52,6 +51,7 @@ Regarding the secrets and variables that must be created:
 * `HOST_DATA`: The deployment location SSH Host for data transfer (may be the same as `HOST`)
 * `SSH_KEY`: A SSH Key that allows access to the above `HOST`/`HOST_DATA`
 * `USER`: A Username to login to the above `HOST`/`HOST_DATA`
+* (Required only for `Release` Environment) `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `secrets.BUILD_DB_PACKAGES` to the release provenance database as part of tracking services. 
 
 ##### Environment Variables
 
@@ -59,7 +59,8 @@ Regarding the secrets and variables that must be created:
 * `DEPLOYMENT_TARGET`: Name of the deployment target. It is exported to the deployment target and used for variations in `spack.yaml` build processes - seen most prominently in mutually-exclusive 'when' clauses like `spack.definitions[].when = env['DEPLOYMENT_TARGET'] == 'gadi'`. Also used for logging purposes.
 * `SPACK_INSTALLS_ROOT_LOCATION`: Path to the directory that contains all versions of a deployment of `spack`. For example, if `/some/apps/spack` is the `SPACK_INSTALLS_ROOT_LOCATION`, that directory will contain directories like `0.20`, `0.21`, `0.22`, which in turn contain an install of `spack`, `spack-packages` and `spack-config`
 * `SPACK_YAML_LOCATION`: Path to a directory that will contain the `spack.yaml` from this repository during deployment
-* (Optional) `SPACK_INSTALL_PARALLEL_JOBS`: Explicit number of parallel jobs for the installation of the given model. Must be either of the form `--jobs N` or unset (for the default `--jobs 16`).
+* (Optional) `SPACK_INSTALL_ADDITIONAL_ARGS`: Additional flags outside of `--fresh --fail-fast` to add to the `spack install` command. For advanced users who need to tailor the installation options in their repository.
+* (Required only for `Release` Environment) `TRACKING_SERVICES_POST_URL`: A url to the API of the release provenance database as part of tracking services. 
 
 ### File Modifications
 
