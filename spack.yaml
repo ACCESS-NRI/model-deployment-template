@@ -7,7 +7,7 @@ spack:
   # definitions:
     # This is the root spack bundle that contains the model
     # - ROOT_PACKAGE:
-    #   - MODEL@git.VERSION
+    #   - MODEL@git.GIT_REF=SPACK_VERSION
 
     # Mutually-exclusive Compiler and Target definitions (assumes DEPLOYMENT_TARGET set)
     # - when: env['DEPLOYMENT_TARGET'] == 'Gadi'
@@ -18,7 +18,7 @@ spack:
     #   compiler_targets: ['intel@2021.2.0 target=x86_64']
 
     # This is where the single definitions of ROOT_PACKAGE and compiler/target are
-    # matrixed together to form a single spec: MODEL@git.VERSION %intel@2021.2.0 target=x86_64
+    # matrixed together to form a single spec: MODEL@git.GIT_REF=SPACK_VERSION %intel@2021.2.0 target=x86_64
     # - ROOT_SPEC:
     #   - matrix:
     #     - [$ROOT_PACKAGE]
@@ -27,8 +27,9 @@ spack:
   specs:
     # The root Spack Bundle Recipe (SBR) for the model and overall version of
     # the deployment:
-    # TODO: Replace the MODEL and VERSION, if there is only one deployment target
-    # - MODEL@git.VERSION
+    # TODO: Replace the MODEL, GIT_REF and SPACK_VERSION, if there is
+    #       only one deployment target
+    # - MODEL@git.GIT_REF=SPACK_VERSION
     # Alternatively, if there are multiple deployment targets that require
     # different compilers/variants, use the above definitions section and:
     # - $ROOT_SPEC
@@ -58,12 +59,12 @@ spack:
           # - PACKAGE1
           # - PACKAGE2
         projections:
-          # These projection VERSIONs must be the same as the
-          # `spack.packages.*.require[0]` VERSION but without the `@git.` and
-          # without the RHS of the equals sign, if there is one.
+          # These projection GIT_REFs must be the same as the
+          # `spack.packages.*.require[0]` ref but without the `@git.`
+          # and without the '=SPACK_VERSION', if there is one.
           #
           # For a MODEL, an example projection is `{name}/2024.10.0`.
-          # For a PACKAGE where `require` VERSION is
+          # For a PACKAGE where `require` @git.GIT_REF=SPACK_VERSION is
           # `@git.2024.04.21=access-esm1.5`, the projection becomes
           # `{name}/2024.04.21-{hash:7}`.
           # TODO: Add explicit projections for modules that will be found with
