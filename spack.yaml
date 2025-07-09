@@ -58,20 +58,6 @@ spack:
           # - MODEL
           # - PACKAGE1
           # - PACKAGE2
-        projections:
-          # These projection GIT_REFs must be the same as the
-          # `spack.packages.*.require[0]` ref but without the `@git.`
-          # and without the '=SPACK_VERSION', if there is one.
-          #
-          # For a MODEL, an example projection is `{name}/2024.10.0`.
-          # For a PACKAGE where `require` @git.GIT_REF=SPACK_VERSION is
-          # `@git.2024.04.21=access-esm1.5`, the projection becomes
-          # `{name}/2024.04.21-{hash:7}`.
-          # TODO: Add explicit projections for modules that will be found with
-          #       `module load`.
-          # MODEL: '{name}/VERSION'
-          # PACKAGE1: '{name}/VERSION1-{hash:7}'
-          # PACKAGE2: '{name}/VERSION2-{hash:7}'
   # config:
   #   overridden spack configurations, if needed
   # mirrors:
