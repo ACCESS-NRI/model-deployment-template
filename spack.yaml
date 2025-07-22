@@ -50,14 +50,9 @@ spack:
   view: true
   concretizer:
     unify: true
-  modules:
-    default:
-      tcl:
-        include:
-          # TODO: Add MODEL and PACKAGEs that will have a corresponding module
-          # - MODEL
-          # - PACKAGE1
-          # - PACKAGE2
+  # modules:
+  #   overridden module includes, projections, etc, if needed
+  #   we inject these in build-cd now, but custom ones can be added additionally here
   # config:
   #   overridden spack configurations, if needed
   # mirrors:

@@ -22,7 +22,6 @@ There are a few secrets and variables that must be set at the repository level.
 * `GH_COMMIT_CHECK_TOKEN`: GitHub Token that allows workflows to run based on workflow-authored commits (in  the case where a user uses `!bump` commands in PRs that bumps the version of the model)
 * `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `secrets.BUILD_DB_PACKAGES` to the release provenance database as part of tracking services, used for Releases.
 
-
 ##### Repository Variables
 
 * `BUILD_DB_PACKAGES`: List of `spack` packages that are model components that will be uploaded to the release provenance database
@@ -31,7 +30,7 @@ There are a few secrets and variables that must be set at the repository level.
 * `SPACK_YAML_SCHEMA_VERSION`: Version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment) used in this repository
 * `RELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing release deployments. These are often the names of [keys under the `deployment` key of `build-cd`s `config/settings.json`](https://github.com/ACCESS-NRI/build-cd/blob/09cdf100eefc58f06900e8e9145e77b4caf5a39d/config/settings.json#L3), such as `Gadi` or `Setonix`. As noted [below](#environment-secretsvariables), it is the same as the GitHub Environment name. For example: `Gadi Setonix`
 * `PRERELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing prerelease deployments, similar to the above. For example: `Gadi Setonix` - note the lack of a `Prerelease` specifier!
-* `TRACKING_SERVICES_POST_URL`: A url to the API of the release provenance database as part of tracking services, used for Releases. 
+* `TRACKING_SERVICES_POST_URL`: A url to the API of the release provenance database as part of tracking services, used for Releases.
 
 #### Environment Secrets/Variables
 
