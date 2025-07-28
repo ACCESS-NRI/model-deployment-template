@@ -20,11 +20,10 @@ There are a few secrets and variables that must be set at the repository level.
 ##### Repository Secrets
 
 * `GH_COMMIT_CHECK_TOKEN`: GitHub Token that allows workflows to run based on workflow-authored commits (in  the case where a user uses `!bump` commands in PRs that bumps the version of the model)
-* `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `secrets.BUILD_DB_PACKAGES` to the release provenance database as part of tracking services, used for Releases.
+* `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `config/packages.json` to the release provenance database as part of tracking services, used for Releases.
 
 ##### Repository Variables
 
-* `BUILD_DB_PACKAGES`: List of `spack` packages that are model components that will be uploaded to the release provenance database
 * `NAME`: which corresponds to the model name - which is usually the repository name
 * `CONFIG_VERSIONS_SCHEMA_VERSION`: Version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions) used in this repository
 * `SPACK_YAML_SCHEMA_VERSION`: Version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment) used in this repository
@@ -74,6 +73,11 @@ Regarding the secrets and variables that must be created:
 * `.spack` must be given a version. For example, it will clone the associated `releases/vVERSION` branch of `ACCESS-NRI/spack` if you give it `VERSION`.
 * `.spack-packages` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/spack-packages/tags) for a list of available tags.
 
+#### In `config/packages.json`
+
+* `.provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
+* `.injection`: If packages need to be injected automatically in the manifest, their package names must be added to this list.
+
 #### In `spack.yaml`
 
 There are a few TODOs for the `spack.yaml`:
@@ -87,4 +91,3 @@ Otherwise:
 * `spack.specs`: Set the root SBD as the only element of `spack.specs`. This must also have an `@git.YEAR.MONTH.MINOR` version as it is the version of the entire deployment (and indeed will be a tag in this repository).
 * `spack.packages.*`: In this section, you can specify the versions and variants of dependencies. Note that the first element of the `spack.packages.*.require` must be only a version. Variants and other configuration can be done on subsequent lines.
 * `spack.packages.all`: Can set configuration for all packages. For example, the compiler used, or the target architecture.
-* `spack.modules.default.tcl.include`: List of package names that will be explicitly included and available to `module load`.
