@@ -25,9 +25,6 @@ There are a few secrets and variables that must be set at the repository level.
 ##### Repository Variables
 
 * `NAME`: which corresponds to the model name - which is usually the repository name
-* `CONFIG_VERSIONS_SCHEMA_VERSION`: Version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions) used in this repository
-* `CONFIG_PACKAGES_SCHEMA_VERSION`: Version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages) used in this repository
-* `SPACK_YAML_SCHEMA_VERSION`: Version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment) used in this repository
 * `RELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing release deployments. These are often the names of [keys under the `deployment` key of `build-cd`s `config/settings.json`](https://github.com/ACCESS-NRI/build-cd/blob/09cdf100eefc58f06900e8e9145e77b4caf5a39d/config/settings.json#L3), such as `Gadi` or `Setonix`. As noted [below](#environment-secretsvariables), it is the same as the GitHub Environment name. For example: `Gadi Setonix`
 * `PRERELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing prerelease deployments, similar to the above. For example: `Gadi Setonix` - note the lack of a `Prerelease` specifier!
 * `TRACKING_SERVICES_POST_URL`: A url to the API of the release provenance database as part of tracking services, used for Releases.
@@ -68,6 +65,9 @@ Regarding the secrets and variables that must be created:
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
 * If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment|pr-closed].with.root-sbd` line to the appropriate SBD name.
+* Set `inputs.config-versions-schema-version` to an appropriate version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions).
+* Set `inputs.config-packages-schema-version` to an appropriate version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages).
+* Set `inputs.spack-manifest-schema-version` to an appropriate version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment).
 
 #### In `config/versions.json`
 
@@ -78,6 +78,11 @@ Regarding the secrets and variables that must be created:
 
 * `.provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
 * `.injection`: If packages need to be injected automatically in the manifest, their package names must be added to this list.
+
+#### In `.github/CODEOWNERS`
+
+* By default, @CodeGat will be pinged for review for infrastructure changes.
+* Maintainers can set CODEOWNERs of the `spack.yaml` manifest so they are pinged when changes are proposed to that file.
 
 #### In `spack.yaml`
 
