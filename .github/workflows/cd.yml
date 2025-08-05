@@ -15,7 +15,7 @@ jobs:
       model: ${{ vars.NAME }}
       # TODO: Get versions of applicable schema from ACCESS-NRI/schema
       spack-manifest-schema-version: SET_SCHEMA_VERSION_HERE
-      config-versions.schema-version: SET_SCHEMA_VERSION_HERE
+      config-versions-schema-version: SET_SCHEMA_VERSION_HERE
       config-packages-schema-version: SET_SCHEMA_VERSION_HERE
     permissions:
       contents: write

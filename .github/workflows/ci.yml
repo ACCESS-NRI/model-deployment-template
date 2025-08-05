@@ -33,7 +33,7 @@ jobs:
       pr: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.event.issue.number }}
      # TODO: Get versions of applicable schema from ACCESS-NRI/schema
       spack-manifest-schema-version: SET_SCHEMA_VERSION_HERE
-      config-versions.schema-version: SET_SCHEMA_VERSION_HERE
+      config-versions-schema-version: SET_SCHEMA_VERSION_HERE
       config-packages-schema-version: SET_SCHEMA_VERSION_HERE
     permissions:
       pull-requests: write
