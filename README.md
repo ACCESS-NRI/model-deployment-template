@@ -82,7 +82,7 @@ Regarding the secrets and variables that must be created:
 #### In `.github/CODEOWNERS`
 
 * By default, @CodeGat will be pinged for review for infrastructure changes.
-* Maintainers can set CODEOWNERs of the `spack.yaml` manifest so they are pinged when changes are proposed to that file.
+* Maintainers should set CODEOWNERs of the `spack.yaml` manifest to ensure all affected teams are consulted when changes are proposed to that file.
 
 #### In `spack.yaml`
 
