@@ -5,6 +5,31 @@ A template repository for the deployment of `spack`-based models.
 > [!NOTE]
 > Feel free to replace this README with information on the model once the TODOs have been ticked off.
 
+## Common README.md Elements
+
+### Badges for spack, spack-packages, spack-config used
+
+If you want to add badges for the current version of [`spack`](https://github.com/ACCESS-NRI/spack) and [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages) used for the latest model deployment, and the latest version of [`spack-config`](https://github/ACCESS-NRI/spack-config) used across all models, you can add the following urls to your README.
+
+> [!NOTE]
+> The first two URLS (`spack` and `spack-packages`) must have the repository name rather than `__MODEL__` (eg, `ACCESS-OM3`), so it can pull data from that repository. The last one (`spack-config`) pulls from a central `build-cd` repository and doesn't need to be edited.
+
+```txt
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2Fbuild-cd%2Fraw%2FHEAD%2Fconfig%2Fsettings.json&query=%24.deployment.Gadi.Release.%5B'0.22'%5D.spack-config&label=ACCESS-NRI%2Fspack-config%20(Gadi))
+```
+
+If done correctly, they will look something like this (`ACCESS-OM3` example):
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2Fbuild-cd%2Fraw%2FHEAD%2Fconfig%2Fsettings.json&query=%24.deployment.Gadi.Release.%5B'0.22'%5D.spack-config&label=ACCESS-NRI%2Fspack-config%20(Gadi))
+
 ## Things TODO to get your model deployed
 
 ### Settings
