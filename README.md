@@ -5,6 +5,31 @@ A template repository for the deployment of `spack`-based models.
 > [!NOTE]
 > Feel free to replace this README with information on the model once the TODOs have been ticked off.
 
+## Common README.md Elements
+
+### Badges for spack, spack-packages, spack-config used
+
+If you want to add badges for the current version of [`spack`](https://github.com/ACCESS-NRI/spack) and [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages) used for the latest model deployment, and the latest version of [`spack-config`](https://github/ACCESS-NRI/spack-config) used across all models, you can add the following urls to your README.
+
+> [!NOTE]
+> The first two URLS (`spack` and `spack-packages`) must have the repository name rather than `__MODEL__` (eg, `ACCESS-OM3`), so it can pull data from that repository. The last one (`spack-config`) pulls from a central `build-cd` repository and doesn't need to be edited.
+
+```txt
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2Fbuild-cd%2Fraw%2FHEAD%2Fconfig%2Fsettings.json&query=%24.deployment.Gadi.Release.%5B'0.22'%5D.spack-config&label=ACCESS-NRI%2Fspack-config%20(Gadi))
+```
+
+If done correctly, they will look something like this (`ACCESS-OM3` example):
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
+
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2Fbuild-cd%2Fraw%2FHEAD%2Fconfig%2Fsettings.json&query=%24.deployment.Gadi.Release.%5B'0.22'%5D.spack-config&label=ACCESS-NRI%2Fspack-config%20(Gadi))
+
 ## Things TODO to get your model deployed
 
 ### Settings
@@ -25,9 +50,6 @@ There are a few secrets and variables that must be set at the repository level.
 ##### Repository Variables
 
 * `NAME`: which corresponds to the model name - which is usually the repository name
-* `CONFIG_VERSIONS_SCHEMA_VERSION`: Version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions) used in this repository
-* `CONFIG_PACKAGES_SCHEMA_VERSION`: Version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages) used in this repository
-* `SPACK_YAML_SCHEMA_VERSION`: Version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment) used in this repository
 * `RELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing release deployments. These are often the names of [keys under the `deployment` key of `build-cd`s `config/settings.json`](https://github.com/ACCESS-NRI/build-cd/blob/09cdf100eefc58f06900e8e9145e77b4caf5a39d/config/settings.json#L3), such as `Gadi` or `Setonix`. As noted [below](#environment-secretsvariables), it is the same as the GitHub Environment name. For example: `Gadi Setonix`
 * `PRERELEASE_DEPLOYMENT_TARGETS`: Space-separated list of deployment targets when doing prerelease deployments, similar to the above. For example: `Gadi Setonix` - note the lack of a `Prerelease` specifier!
 * `TRACKING_SERVICES_POST_URL`: A url to the API of the release provenance database as part of tracking services, used for Releases.
@@ -68,6 +90,9 @@ Regarding the secrets and variables that must be created:
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
 * If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment|pr-closed].with.root-sbd` line to the appropriate SBD name.
+* Check `inputs.config-versions-schema-version` is an appropriate version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions).
+* Check `inputs.config-packages-schema-version` is an appropriate version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages).
+* Check `inputs.spack-manifest-schema-version` is an appropriate version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment).
 
 #### In `config/versions.json`
 
@@ -78,6 +103,11 @@ Regarding the secrets and variables that must be created:
 
 * `.provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
 * `.injection`: If packages need to be injected automatically in the manifest, their package names must be added to this list.
+
+#### In `.github/CODEOWNERS`
+
+* By default, @CodeGat will be pinged for review for infrastructure changes.
+* Maintainers should set CODEOWNERs of the `spack.yaml` manifest to ensure all affected teams are consulted when changes are proposed to that file.
 
 #### In `spack.yaml`
 
