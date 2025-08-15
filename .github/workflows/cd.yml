@@ -13,10 +13,10 @@ jobs:
     uses: access-nri/build-cd/.github/workflows/cd.yml@v6
     with:
       model: ${{ vars.NAME }}
-      # TODO: Get versions of applicable schema from ACCESS-NRI/schema
-      spack-manifest-schema-version: SET_SCHEMA_VERSION_HERE  # https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment
-      config-versions-schema-version: SET_SCHEMA_VERSION_HERE  # https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions
-      config-packages-schema-version: SET_SCHEMA_VERSION_HERE  # https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages
+      # TODO: Check versions are appropriate
+      spack-manifest-schema-version: 1-0-7
+      config-versions-schema-version: 3-0-0
+      config-packages-schema-version: 1-0-0
     permissions:
       contents: write
       # This is due to the entrypoint also handling `on.pull_request` events
