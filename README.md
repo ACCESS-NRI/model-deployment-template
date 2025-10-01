@@ -46,6 +46,7 @@ There are a few secrets and variables that must be set at the repository level.
 
 * `GH_COMMIT_CHECK_TOKEN`: GitHub Token that allows workflows to run based on workflow-authored commits (in  the case where a user uses `!bump` commands in PRs that bumps the version of the model)
 * `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `config/packages.json` to the release provenance database as part of tracking services, used for Releases.
+* `CONFIGS_REPO_TOKEN`: A token used to open PRs to linked configs repositories as part of an `!update-configs` command. Requires `contents:write` and `pull-requests:write`.
 
 ##### Repository Variables
 
@@ -89,7 +90,7 @@ Regarding the secrets and variables that must be created:
 #### In `.github/workflows`
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
-* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment|pr-closed].with.root-sbd` line to the appropriate SBD name.
+* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.*.with.root-sbd` line to the appropriate SBD name, for all `.github/workflows/*.yml` files.
 * Check `inputs.config-versions-schema-version` is an appropriate version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions).
 * Check `inputs.config-packages-schema-version` is an appropriate version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages).
 * Check `inputs.spack-manifest-schema-version` is an appropriate version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment).
