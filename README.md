@@ -105,6 +105,53 @@ Regarding the secrets and variables that must be created:
 * `.provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
 * `.injection`: If packages need to be injected automatically in the manifest, their package names must be added to this list.
 
+#### In `config/auto-configs-pr.json`
+
+This file is split into multiple _profiles_. A _profile_ can be thought of as a configs repository, multiple config branches to open PRs into, and what checks to run for each of those config branches. Users specify a particular _profile_ through `!update-configs profile=PROFILE` (eg. `!update-configs profile=qa-only`). If no profile is specified (eg. `!update-configs`) the required `default` profile is used.
+
+An example `config/auto-configs-pr.json` file looks like this:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/ACCESS-NRI/schema/main/au.org.access-nri/model/deployment/config/auto-configs-pr/1-0-0.json",
+  "profiles": {
+
+    "default": {
+      "configs_repo": "ACCESS-NRI/access-test-configs",
+      "configs": {
+        "dev-01deg_jra55_iaf": {
+          "checks": {
+            "repro": true
+          }
+        }
+      }
+    },
+
+    "qa-only": {
+      "configs_repo": "ACCESS-NRI/access-test-configs",
+      "configs": {
+        "dev-01deg_jra55_iaf": {
+          "checks": {
+            "repro": false
+          }
+        },
+        "dev-01deg_jra55_ryf": {
+          "checks": {
+            "repro": false
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+This means that `!update-configs` invoked on a Prerelease PR for the HEAD prerelease build (for example, `access-test/pr100-2`), will automatically create one PR in `ACCESS-NRI/access-test-configs`, in a feature branch off the `dev-01deg_jra55_iaf` branch, with all changes required to use the prerelease module. Furthermore, it will run `!test repro` on that PR.
+
+Similarly, `!update-configs profile=qa-only` will open two PRs in `ACCESS-NRI/access-test-configs`, in feature branches off the `dev-01deg_jra55_iaf` and `dev-01deg_jra55_ryf` branches respectively. Repro checks will not be run, but QA checks will run as normal.
+
+If you intend to use the `!update-configs` command, the `default` profile must at least be specified.
+
 #### In `.github/CODEOWNERS`
 
 * By default, @CodeGat will be pinged for review for infrastructure changes.
