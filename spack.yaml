@@ -3,8 +3,12 @@
 # It describes a set of packages to be installed, along with
 # configuration settings.
 spack:
-  # TODO: This section is used primarily to provide variations to a model based on deployment target. Delete if not required.
   # definitions:
+    # TODO: _name and _version are required reserved definitions that inform build-cd deployments, and have no effect otherwise
+    # - _name: [DEPLOYMENT_NAME_HERE]
+    # - _version: [DEPLOYMENT_VERSION_HERE]
+
+    # TODO: This section is used primarily to provide variations to a model based on deployment target. Delete if not required.
     # This is the root spack bundle that contains the model
     # - ROOT_PACKAGE:
     #   - MODEL@git.GIT_REF=SPACK_VERSION
@@ -25,11 +29,9 @@ spack:
     #     - [$%compiler_target]
 
   specs:
-    # The root Spack Bundle Recipe (SBR) for the model and overall version of
-    # the deployment:
-    # TODO: Replace the MODEL, GIT_REF and SPACK_VERSION, if there is
-    #       only one deployment target
-    # - MODEL@git.GIT_REF=SPACK_VERSION
+    # The root Spack Bundle Recipe (SBR) for the model
+    # TODO: Replace the MODEL if there is only one deployment target
+    # - MODEL
     # Alternatively, if there are multiple deployment targets that require
     # different compilers/variants, use the above definitions section and:
     # - $ROOT_SPEC
@@ -39,14 +41,18 @@ spack:
     # TODO: Specify versions and variants of dependencies as required.
     # openmpi:
     #   require:
-    #     - '@4.1.5'
+    #   - '@4.1.5'
+
+    # Compilers
+    # TODO: For compilers used in this deployment, specify versions as required.
+    #       If changing compiler families, don't forget to update the 'all' section below.
 
     # Specifications that apply to all packages
     all:
-      # TODO: Specify compiler/targets for all packages
+      # TODO: Specify compiler toolchain/targets for all packages
       # require:
-      #   - '%intel@2021.10.0'
-      #   - 'target=x86_64'
+      # - '%access_intel'
+      # - 'target=x86_64'
   view: true
   concretizer:
     unify: true
@@ -54,7 +60,8 @@ spack:
   #   overridden module includes, projections, etc, if needed
   #   we inject these in build-cd now, but custom ones can be added additionally here
   # config:
-  #   overridden spack configurations, if needed
+  #   overridden spack configurations, if needed. Preference is to use custom configurations scopes in
+  #   spack-config's custom/cd/SCOPE, referenced in the config/versions.json's custom-scopes field.
   # mirrors:
   #   overridden spack package tarball directories, if needed
   # repos:
