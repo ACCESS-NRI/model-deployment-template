@@ -46,6 +46,7 @@ There are a few secrets and variables that must be set at the repository level.
 
 * `GH_COMMIT_CHECK_TOKEN`: GitHub Token that allows workflows to run based on workflow-authored commits (in  the case where a user uses `!bump` commands in PRs that bumps the version of the model)
 * `TRACKING_SERVICES_POST_TOKEN`: A token used to post build information about the packages in `config/packages.json` to the release provenance database as part of tracking services, used for Releases.
+* `CONFIGS_REPO_TOKEN`: A token used to open PRs to linked configs repositories as part of an `!update-configs` command. Requires `contents:write` and `pull-requests:write`.
 
 ##### Repository Variables
 
@@ -89,7 +90,7 @@ Regarding the secrets and variables that must be created:
 #### In `.github/workflows`
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
-* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.[pr-ci|pr-comment|pr-closed].with.root-sbd` line to the appropriate SBD name.
+* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.*.with.root-sbd` line to the appropriate SBD name, for all `.github/workflows/*.yml` files.
 * Check `inputs.config-versions-schema-version` is an appropriate version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions).
 * Check `inputs.config-packages-schema-version` is an appropriate version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages).
 * Check `inputs.spack-manifest-schema-version` is an appropriate version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment).
@@ -103,6 +104,53 @@ Regarding the secrets and variables that must be created:
 
 * `.provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
 * `.injection`: If packages need to be injected automatically in the manifest, their package names must be added to this list.
+
+#### In `config/auto-configs-pr.json`
+
+This file is split into multiple _profiles_. A _profile_ can be thought of as a configs repository, multiple config branches to open PRs into, and what checks to run for each of those config branches. Users specify a particular _profile_ through `!update-configs profile=PROFILE` (eg. `!update-configs profile=qa-only`). If no profile is specified (eg. `!update-configs`) the required `default` profile is used.
+
+An example `config/auto-configs-pr.json` file looks like this:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/ACCESS-NRI/schema/main/au.org.access-nri/model/deployment/config/auto-configs-pr/1-0-0.json",
+  "profiles": {
+
+    "default": {
+      "configs_repo": "ACCESS-NRI/access-test-configs",
+      "configs": {
+        "dev-01deg_jra55_iaf": {
+          "checks": {
+            "repro": true
+          }
+        }
+      }
+    },
+
+    "qa-only": {
+      "configs_repo": "ACCESS-NRI/access-test-configs",
+      "configs": {
+        "dev-01deg_jra55_iaf": {
+          "checks": {
+            "repro": false
+          }
+        },
+        "dev-01deg_jra55_ryf": {
+          "checks": {
+            "repro": false
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+This means that `!update-configs` invoked on a Prerelease PR for the HEAD prerelease build (for example, `access-test/pr100-2`), will automatically create one PR in `ACCESS-NRI/access-test-configs`, in a feature branch off the `dev-01deg_jra55_iaf` branch, with all changes required to use the prerelease module. Furthermore, it will run `!test repro` on that PR.
+
+Similarly, `!update-configs profile=qa-only` will open two PRs in `ACCESS-NRI/access-test-configs`, in feature branches off the `dev-01deg_jra55_iaf` and `dev-01deg_jra55_ryf` branches respectively. Repro checks will not be run, but QA checks will run as normal.
+
+If you intend to use the `!update-configs` command, the `default` profile must at least be specified.
 
 #### In `.github/CODEOWNERS`
 
