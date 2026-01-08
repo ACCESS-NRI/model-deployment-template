@@ -98,7 +98,8 @@ Regarding the secrets and variables that must be created:
 #### In `config/versions.json`
 
 * `.spack` must be given a version. For example, it will clone the associated `releases/vVERSION` branch of `ACCESS-NRI/spack` if you give it `VERSION`.
-* `.spack-packages` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/spack-packages/tags) for a list of available tags.
+* `.access-spack-packages` should also have a CalVer-compliant tag as the version. See the [associated repo](https://github.com/ACCESS-NRI/access-spack-packages/tags) for a list of available tags.
+* Optionally, a list of `.custom-scopes` can be specified from `spack-config`s `custom/cd/` - this is usually for restricted builds.
 
 #### In `config/packages.json`
 
@@ -167,6 +168,7 @@ There are a few TODOs for the `spack.yaml`:
 
 Otherwise:
 
-* `spack.specs`: Set the root SBD as the only element of `spack.specs`. This must also have an `@git.YEAR.MONTH.MINOR` version as it is the version of the entire deployment (and indeed will be a tag in this repository).
-* `spack.packages.*`: In this section, you can specify the versions and variants of dependencies. Note that the first element of the `spack.packages.*.require` must be only a version. Variants and other configuration can be done on subsequent lines.
+* `spack.definitions`: Set both the `_name` and `_version` reserved variants, which give the deployment it's name and version.
+* `spack.specs`: Set the root SBD as the only element of `spack.specs`.
+* `spack.packages.*`: In this section, you can specify the versions and variants of dependencies and compilers. Note that the first element of the `spack.packages.*.require` must be only a version. Variants and other configuration can be done on subsequent lines.
 * `spack.packages.all`: Can set configuration for all packages. For example, the compiler used, or the target architecture.
