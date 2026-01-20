@@ -90,7 +90,6 @@ Regarding the secrets and variables that must be created:
 #### In `.github/workflows`
 
 * Reminder that these workflows use `vars.NAME` (as well as inherit the above environment secrets) and hence these must be set.
-* If the name of the root SBD for the model (in [`spack-packages`](https://github.com/ACCESS-NRI/spack-packages/tree/main/packages)) is different from the model name (for example, `ACCESS-ESM1.5`s root SBD is `access-esm1p5`), you must uncomment and set the `jobs.*.with.root-sbd` line to the appropriate SBD name, for all `.github/workflows/*.yml` files.
 * Check `inputs.config-versions-schema-version` is an appropriate version of the [`config/versions.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/versions).
 * Check `inputs.config-packages-schema-version` is an appropriate version of the [`config/packages.json` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/deployment/config/packages).
 * Check `inputs.spack-manifest-schema-version` is an appropriate version of the [ACCESS-NRI-style `spack.yaml` schema](https://github.com/ACCESS-NRI/schema/tree/main/au.org.access-nri/model/spack/environment/deployment).
