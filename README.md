@@ -15,7 +15,7 @@ If you want to add badges for the current version of [`spack`](https://github.co
 > The first two URLS (`spack` and `spack-packages`) must have the repository name rather than `__MODEL__` (eg, `ACCESS-OM3`), so it can pull data from that repository. The last one (`spack-config`) pulls from a central `build-cd` repository and doesn't need to be edited.
 
 ```txt
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.access-spack-packages&label=ACCESS-NRI%2Faccess-spack-packages)
 
 ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2F__MODEL__%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
 
@@ -24,7 +24,7 @@ If you want to add badges for the current version of [`spack`](https://github.co
 
 If done correctly, they will look something like this (`ACCESS-OM3` example):
 
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack-packages&label=ACCESS-NRI%2Fspack-packages)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.access-spack-packages&label=ACCESS-NRI%2Faccess-spack-packages)
 
 ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2FACCESS-NRI%2FACCESS-OM3%2Fraw%2Fmain%2Fconfig%2Fversions.json&query=%24.spack&label=ACCESS-NRI%2Fspack)
 
@@ -79,6 +79,7 @@ Regarding the secrets and variables that must be created:
 
 ##### Environment Variables
 
+* `ADMIN_MODULES_DIR`: Module directory that will contain the spack module usable by service users. For example, `/g/data/vk83/admin/modules` on Gadi.
 * `DEPLOYED_MODULES_DIR`: Directory that will contain the modules created during the installation of the model. This can be virtual modules created by a [`.modulerc` file](https://github.com/ACCESS-NRI/build-cd/tree/main/tools/modules) in the directory.
 * `DEPLOYMENT_TARGET`: Name of the deployment target. It is exported to the deployment target and used for variations in `spack.yaml` build processes - seen most prominently in mutually-exclusive 'when' clauses like `spack.definitions[].when = env['DEPLOYMENT_TARGET'] == 'gadi'`. Also used for logging purposes.
 * `SPACK_INSTALLS_ROOT_LOCATION`: Path to the directory that contains all versions of a deployment of `spack`. For example, if `/some/apps/spack` is the `SPACK_INSTALLS_ROOT_LOCATION`, that directory will contain directories like `0.20`, `0.21`, `0.22`, which in turn contain an install of `spack`, `spack-packages` and `spack-config`
