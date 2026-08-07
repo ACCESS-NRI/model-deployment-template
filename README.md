@@ -159,10 +159,13 @@ Otherwise:
 
 * `spack.definitions`: Set both the `_name` and `_version` reserved variants, which give the deployment it's name and version.
 * `spack.definitions._spack-version`: The version of `spack` to use. For example, `["1.1"]` will use the associated `1.1` isntance of `ACCESS-NRI/spack` on the HPC.
-* `spack.definitions._custom-scopes` (optional): A list of custom scopes from `spack-config`s `custom/cd/` - this is usually for restricted builds.
 * `spack.definitions._provenance`: If components of a model are to be kept track of in the release provenance database, their package names must be added to this list. They will also be injected into the `spack.modules.tcl.default` section of the manifest.
 * `spack.definitions._injection`: If packages need to be injected automatically into the manifest's modules, their package names must be added to this list.
 * `spack.repos.access_spack_packages`: The `access-spack-packages` version to clone, given as a `tag:`, `branch:` or `commit:`. Tags are CalVer-compliant - see the [associated repo](https://github.com/ACCESS-NRI/access-spack-packages/tags) for a list. Keep `destination:` as-is to aid the infra in cleanup afterwards.
 * `spack.specs`: Set the root SBD as the only element of `spack.specs`.
 * `spack.packages.*`: In this section, you can specify the versions and variants of dependencies and compilers. Note that the first element of the `spack.packages.*.require` must be only a version. Variants and other configuration can be done on subsequent lines.
 * `spack.packages.all`: Can set configuration for all packages. For example, the compiler used, or the target architecture.
+
+Optionally:
+
+* `spack.definitions._custom-scopes` (optional): A list of custom scopes from `spack-config`s `custom/cd/` - this is usually for restricted builds.
