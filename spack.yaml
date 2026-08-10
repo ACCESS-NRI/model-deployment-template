@@ -69,7 +69,7 @@ spack:
       git: https://github.com/ACCESS-NRI/access-spack-packages.git
       # TODO: Specify the access-spack-packages version to clone. Provide one of tag:, branch: or commit:.
       tag: SOME_SPECIFIC_TAG
-      destination: $env/.package_repos/access-spack-packages
+      destination: $env/package-repos/access-spack-packages
   # modules:
   #   overridden module includes, projections, etc, if needed
   #   we inject these in build-cd now, but custom ones can be added additionally here
